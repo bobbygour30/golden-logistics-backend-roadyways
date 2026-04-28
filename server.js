@@ -4,6 +4,8 @@ import cors from "cors";
 import connectDB from "./config/db.js";
 import { promises as dns } from "dns";
 import authRoutes from './routes/authRoutes.js';
+import bookingRoutes from './routes/bookingRoutes.js';
+import deliveryRoutes from './routes/deliveryRoutes.js';
 
 dns.setServers(["8.8.8.8", "1.1.1.1"]);
 
@@ -29,6 +31,8 @@ const corsOptions = {
     }
   },
   credentials: true,
+   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
 };
 
 app.use(cors(corsOptions));
@@ -37,7 +41,8 @@ app.use(cors(corsOptions));
 
 
 app.use('/api/auth', authRoutes);
-
+app.use('/api/booking', bookingRoutes);
+app.use('/api/delivery', deliveryRoutes);
 
 app.get("/", (req, res) => {
   res.send("Backend is running!");
