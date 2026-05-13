@@ -8,14 +8,15 @@ import {
   getOfficesByRegion,
   getStats
 } from '../controllers/bookingController.js';
-import { protect } from '../middleware/authMiddleware.js';
+// Remove protect import if not used elsewhere
+// import { protect } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
-// All routes are protected
-router.use(protect);
+// Remove this line - no JWT protection needed
+// router.use(protect);
 
-// Routes
+// Routes (all public now)
 router.route('/')
   .get(getAllOffices)
   .post(createOffice);

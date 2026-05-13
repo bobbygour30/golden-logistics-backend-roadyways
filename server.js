@@ -18,7 +18,9 @@ app.use(express.json());
 
 const allowedOrigins = [
   "http://localhost:5173",
+  "http://localhost:5174",
   "https://roadways-frontend.vercel.app",
+  "https://goldenroadwaysandlogistics.com",
 ];
 
 const corsOptions = {

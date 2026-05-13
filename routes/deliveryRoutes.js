@@ -6,11 +6,13 @@ import {
   updateOffice,
   deleteOffice
 } from '../controllers/deliveryController.js';
-import { protect } from '../middleware/authMiddleware.js';
+// Remove protect import if not used elsewhere
+// import { protect } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
-router.use(protect);
+// Remove this line - no JWT protection needed
+// router.use(protect);
 
 router.route('/')
   .get(getAllOffices)
