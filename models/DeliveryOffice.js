@@ -24,7 +24,7 @@ const deliveryOfficeSchema = new mongoose.Schema({
   region: {
     type: String,
     required: [true, 'Region is required'],
-    enum: ['Uttar Pradesh', 'Bihar', 'Jharkhand', 'West Bengal', 'Assam', 'Punjab', 'Haryana', 'Delhi', 'Gujarat'],
+    enum: ['Uttar Pradesh', 'Bihar', 'Jharkhand', 'West Bengal', 'Assam', 'Punjab', 'Haryana', 'Delhi', 'Gujarat', 'Telangana', 'Andhra Pradesh'],
     default: 'Uttar Pradesh'
   },
   pincode: {
