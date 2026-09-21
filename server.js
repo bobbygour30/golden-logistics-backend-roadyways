@@ -11,7 +11,6 @@ dns.setServers(["8.8.8.8", "1.1.1.1"]);
 
 const app = express();
 
-// Connect DB (IMPORTANT: call inside handler safe way in production)
 connectDB();
 
 app.use(express.json());
@@ -29,18 +28,17 @@ const corsOptions = {
     if (allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
+      console.warn("Blocked by CORS:", origin);
       callback(new Error("CORS not allowed"));
     }
   },
   credentials: true,
-   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
 };
 
+// Single CORS setup handles preflight (OPTIONS) automatically
 app.use(cors(corsOptions));
-
-
-
 
 app.use('/api/auth', authRoutes);
 app.use('/api/booking', bookingRoutes);
@@ -55,8 +53,5 @@ const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
-
-
-
 
 export default app;
