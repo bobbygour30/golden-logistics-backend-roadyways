@@ -24,7 +24,7 @@ const bookingOfficeSchema = new mongoose.Schema({
   region: {
     type: String,
     required: [true, 'Region is required'],
-    enum: ['Delhi', 'Uttar Pradesh', 'Haryana', 'Punjab', 'Gujarat', 'Himachal Pradesh'],
+    enum: ['Delhi', 'Uttar Pradesh', 'Haryana', 'Punjab', 'Gujarat', 'Himachal Pradesh', 'Andhra Pradesh', 'Kerela', 'Tamil Nadu'],
     default: 'Delhi'
   }
 }, {
