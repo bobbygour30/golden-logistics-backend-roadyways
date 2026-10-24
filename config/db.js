@@ -1,17 +1,22 @@
 import mongoose from "mongoose";
 
-const connectDB = async () => {
-  try {
-    if (!process.env.MONGODB_URI) {
-      throw new Error("MONGODB_URI not defined in .env");
-    }
+let cached = global._mongoose || (global._mongoose = { conn: null, promise: null });
 
-    await mongoose.connect(process.env.MONGODB_URI);
-    console.log("✅ MongoDB Connected (Atlas)");
-  } catch (error) {
-    console.error("❌ DB Connection Failed:", error.message);
-    process.exit(1);
+const connectDB = async () => {
+  if (cached.conn) return cached.conn;
+  if (!process.env.MONGODB_URI) throw new Error("MONGODB_URI not defined");
+  if (!cached.promise) {
+    cached.promise = mongoose.connect(process.env.MONGODB_URI).then((m) => m);
   }
+  try {
+    cached.conn = await cached.promise;
+    console.log("✅ MongoDB Connected (Atlas)");
+  } catch (err) {
+    cached.promise = null;
+    console.error("❌ DB Connection Failed:", err.message);
+    throw err;
+  }
+  return cached.conn;
 };
 
 export default connectDB;
