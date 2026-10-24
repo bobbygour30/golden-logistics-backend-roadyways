@@ -20,25 +20,26 @@ const allowedOrigins = [
   "http://localhost:5174",
   "https://roadways-frontend.vercel.app",
   "https://goldenroadwaysandlogistics.com",
+  "https://www.goldenroadwaysandlogistics.com", // ← add this
 ];
 
 const corsOptions = {
-  origin: function (origin, callback) {
-    if (!origin) return callback(null, true);
-    if (allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      console.warn("Blocked by CORS:", origin);
-      callback(new Error("CORS not allowed"));
+  origin(origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      return callback(null, true);
     }
+    console.warn("Blocked by CORS:", origin);
+    callback(null, false); // deny cleanly instead of throwing
   },
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
 };
 
-// Single CORS setup handles preflight (OPTIONS) automatically
+// Put CORS FIRST, before express.json() and routes
 app.use(cors(corsOptions));
+app.options("*", cors(corsOptions)); // explicit preflight handling (use "/{*splat}" on Express 5)
+app.use(express.json());
 
 app.use('/api/auth', authRoutes);
 app.use('/api/booking', bookingRoutes);
